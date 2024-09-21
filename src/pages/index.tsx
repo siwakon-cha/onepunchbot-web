@@ -1,18 +1,19 @@
-import React from 'react';
-import { useAccount } from 'wagmi';
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
-import Demo from '@/components/demo';
+import React, { Fragment, useState } from 'react';
+import SetupAgent from '@/components/SetupAgent';
+import { STEP } from '@/utils/helper';
+import ConnectWallet from '@/components/ConnectWallet';
+import BotSetting from '@/components/BotSetting';
 
 const IndexPage = () => {
-  const { address, isConnected, chain } = useAccount();
-
+  const [step, setStep] = useState<STEP>(STEP.CONNECT_WALLET);
   return (
-    <div>
-      <DynamicWidget />
-      <p>wagmi connected: {isConnected ? 'true' : 'false'}</p>
-      <p>wagmi address: {address}</p>
-      <p>wagmi network: {chain?.id}</p>
-      <Demo />
+    <div className="container mx-auto mt-8 flex justify-center">
+      <SetupAgent>
+        <Fragment>
+          {step === STEP.CONNECT_WALLET && <ConnectWallet setStep={setStep} />}
+          {step === STEP.BOT_SETTING && <BotSetting setStep={setStep} />}
+        </Fragment>
+      </SetupAgent>
     </div>
   );
 };

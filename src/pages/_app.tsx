@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 
@@ -8,6 +10,7 @@ import { createConfig, WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http } from 'viem';
 import { mainnet } from 'viem/chains';
+import { Fragment } from 'react';
 
 const config = createConfig({
   chains: [mainnet],
@@ -30,7 +33,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <DynamicWagmiConnector>
-            <Component {...pageProps} />
+            <Fragment>
+              <Component {...pageProps} />
+            </Fragment>
           </DynamicWagmiConnector>
         </QueryClientProvider>
       </WagmiProvider>
